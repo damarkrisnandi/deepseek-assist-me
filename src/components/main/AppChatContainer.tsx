@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import AppChatInputMsg from './AppChatInputMsg';
-import AppChat from './AppChat';
+import AppChat, { SkeletonChat } from './AppChat';
 import { Flex } from '@chakra-ui/react';
 import { getResponse } from "../../services/index"
 
@@ -16,6 +16,7 @@ const AppChatContainer: React.FC = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [tempMessage, setTempMessage] = useState<any>([]);
   const [tempModel, setTempModel] = useState<any>(null);
+  const [spinner, setSpinner] = useState<boolean>(false);
   // const { messages, addDefaultMessages, addMessages} = useMessageStore((state: any) => state)
   const scrollToBottom = () => {
     const el = document.getElementById('messages');
@@ -27,10 +28,12 @@ const AppChatContainer: React.FC = () => {
   const handleChat = (data: any) => {
     setTempMessage([]);
     setMessages([...messages,  { role: 'user', content: data.message }])
+    setSpinner(true);
     setTimeout(() => {
 
       getResponse([...messages, { role: 'user', content: data.message }], tempModel)
       .then(async (response) => {
+        setSpinner(false);
         const reader = ndjsonStream(response.body).getReader();
         let newline: any;
         let line = []
@@ -73,7 +76,7 @@ const AppChatContainer: React.FC = () => {
             <AppChat message={message.content} role={message.role} model={message.model} key={index}/>
           ))
         }
-
+        { spinner && <SkeletonChat model={tempModel} role={'assistant'}/> }
         { tempMessage.length > 0 && <AppChat message={tempMessage.join('')} model={tempModel} role={'assistant'} /> }
         
         </Flex>

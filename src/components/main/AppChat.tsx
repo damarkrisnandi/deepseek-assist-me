@@ -1,4 +1,4 @@
-import { Card, Avatar, Wrap, Box, Text, Badge } from "@chakra-ui/react";
+import { Box, Badge, Stack, Skeleton } from "@chakra-ui/react";
 import Markdown from "react-markdown";
 import { Prose } from "../ui/prose";
 import rehypeHighlight from 'rehype-highlight';
@@ -28,28 +28,29 @@ const AppChat: React.FC<MessageCardProps> = ({
           <Markdown rehypePlugins={[rehypeHighlight]}>{message}</Markdown>
         </Prose>
       </Box>
-      {/* <Card.Root variant={"subtle"} minW={(role === 'assistant') ? "80%" : "50%"} backgroundColor={(role === 'assistant') ? "" : "aquamarine"}>
-        <Card.Body gap="2">
-          {avatar && (
-            <Avatar.Root size="sm" shape="rounded">
-              <Avatar.Image src={avatar || "https://picsum.photos/200/300"} />
-              <Avatar.Fallback name="Nue Camp" />
-            </Avatar.Root>
-          )}
-          { role === 'assistant' && <Card.Title mb="0">{role}</Card.Title> }
-          { model && <Card.Description>
-            { model }
-          </Card.Description> }
-
-          <Prose minWidth={'100%'}>
-            <Markdown>{message}</Markdown>
-          </Prose>
-
-        </Card.Body>
-      </Card.Root> */}
     </div>
     
   );
 };
+
+export const SkeletonChat : React.FC<Partial<MessageCardProps>> = ({
+  role,
+  model
+}: Partial<MessageCardProps>) => {
+  return (
+    <div style={{ display: 'flex', width: '100%', justifyContent: "flex-start" }}>
+      <Box bg={"#f3f3f3"} p={"4"} textAlign={"left"} minW={"90%"} justifyContent={"flex-start"} gap={"0.3em"}>
+        <Badge colorPalette="teal" variant="solid" marginRight={"0.5em"}>{ role }</Badge>
+        <Badge colorPalette={"black"} variant={"solid"}>{ model }</Badge>
+          
+        <Stack flex="1" mt={"1em"}>
+          <Skeleton height="5" />
+          <Skeleton height="5" width="80%" />
+        </Stack>
+      </Box>
+    </div>
+    
+  );
+}
 
 export default AppChat;

@@ -14,17 +14,23 @@ const AppChatInputMsg = ({ onChat, onChangeModel }: any) => {
     register,
     handleSubmit,
     resetField,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>()
 
 
-  // const addDefaultMessages = useMessageStore((state: any) => state.addDefaultMessages)
-  // const addMessages = useMessageStore((state: any) => state.addMessages)
-  // const messages = useMessageStore((state: any) => state.messages)
   const onSubmit = handleSubmit((data: any) => {
     onChat(data);
     resetField('message');
   })
+
+  const keydownHandler = (event: any) => {
+    if(event.keyCode===13 && event.ctrlKey) {
+      console.log(getValues('message'));
+      onChat({message: getValues('message')});
+      resetField('message');
+    }
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -33,6 +39,7 @@ const AppChatInputMsg = ({ onChat, onChangeModel }: any) => {
           <Textarea
             placeholder="ask something..."
             {...register("message", { required: "Message is not be empty" })}
+            onKeyDown={keydownHandler}
           />
           
           <Field.ErrorText>{errors.message?.message}</Field.ErrorText>
@@ -62,7 +69,7 @@ const SelectModel = ({ onChangeModel }: any) => {
 
   useEffect(() => {
     if (models.length > 0) {
-      handleSelect({ target: { value: models[0].value }})
+      handleSelect({ target: { value: models[0]?.value }})
     }
   }, [models])
 
@@ -72,9 +79,9 @@ const SelectModel = ({ onChangeModel }: any) => {
   }
   
   return (
-    <Stack gap="4" width="240px">
+    <Stack gap="4" width="300px" fontSize={"0.7em"}>
       <NativeSelect.Root size={"md"} onChange={handleSelect}>
-        <NativeSelect.Field placeholder="Select model">
+        <NativeSelect.Field placeholder={`Select model (Default: ${models[0]?.value})`}>
           { models && models.map((model: any) => <option value={model.value} key={model.value}>{ model.label }</option>) }
           
         </NativeSelect.Field>
