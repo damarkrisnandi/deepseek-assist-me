@@ -7,11 +7,11 @@ import { getResponse } from "../../services/index"
 
 import ndjsonStream from 'can-ndjson-stream';
 
-interface AppChatContainerProps {
-  messages: { role: string; content: string }[];
-}
+// interface AppChatContainerProps {
+//   messages: { role: string; content: string }[];
+// }
 
-const AppChatContainer: React.FC<AppChatContainerProps> = () => {
+const AppChatContainer: React.FC = () => {
 
   const [messages, setMessages] = useState<any[]>([]);
   const [tempMessage, setTempMessage] = useState<any>([]);

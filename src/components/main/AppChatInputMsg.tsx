@@ -1,7 +1,7 @@
 
 
 // import useMessageStore from "../../store/useMessageStore"
-import { Button, Field, Flex, NativeSelect, Portal, Select, Stack, Textarea, createListCollection } from "@chakra-ui/react"
+import { Button, Field, Flex, NativeSelect, Stack, Textarea } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -83,15 +83,5 @@ const SelectModel = ({ onChangeModel }: any) => {
     </Stack>
   )
 }
-
-
-const frameworks = createListCollection({
-  items: [
-    { label: "React.js", value: "react" },
-    { label: "Vue.js", value: "vue" },
-    { label: "Angular", value: "angular" },
-    { label: "Svelte", value: "svelte" },
-  ],
-})
 
 export default AppChatInputMsg;
