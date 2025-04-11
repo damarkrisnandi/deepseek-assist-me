@@ -1,3 +1,15 @@
+# Prequsited
+Ollama Required 
+Deepseek-R1:1.5b Required
+
+can use other local LLMs and change the model
+
+NodeJS 18
+React 19
+
+# Preview
+![preview](https://github.com/damarkrisnandi/deepseek-assist-me/blob/main/public/preview.png)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
