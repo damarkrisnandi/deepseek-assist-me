@@ -1,11 +1,13 @@
-# Prequsited
+# Prequisited
 Ollama Required 
-Deepseek-R1:1.5b Required
 
-can use other local LLMs and change the model
+Deepseek-R1:1.5b Required 
 
-NodeJS 18
-React 19
+can use other local LLMs and change the model 
+
+NodeJS 18 
+
+React 19 
 
 # Preview
 ![preview](https://github.com/damarkrisnandi/deepseek-assist-me/blob/main/public/preview.png)
