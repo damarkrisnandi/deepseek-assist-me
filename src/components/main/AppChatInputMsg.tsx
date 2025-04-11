@@ -1,7 +1,7 @@
 
 
 // import useMessageStore from "../../store/useMessageStore"
-import { Button, Field, Flex, NativeSelect, Stack, Textarea } from "@chakra-ui/react"
+import { Button, Field, Flex, Kbd, NativeSelect, Stack, Textarea } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -44,7 +44,9 @@ const AppChatInputMsg = ({ onChat, onChangeModel }: any) => {
           
           <Field.ErrorText>{errors.message?.message}</Field.ErrorText>
           <Flex gap={"2"} height={"100%"}>
-            <Button type="submit">Submit</Button>
+            <Button type="submit">
+              Submit <Kbd>ctrl</Kbd>+<Kbd>enter</Kbd>
+              </Button>
             <SelectModel onChangeModel={onChangeModel} />
           </Flex>
           
