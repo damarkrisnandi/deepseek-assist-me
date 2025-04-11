@@ -18,10 +18,11 @@ const AppChat: React.FC<MessageCardProps> = ({
   avatar,
   model
 }: MessageCardProps) => {
+  const isAssistant = () => (role === 'assistant')
   return (
-    <div style={{ display: 'flex', width: '100%', justifyContent: (role === 'assistant') ? "flex-start" : "flex-end" }}>
-      <Box bg={(role === 'assistant') ? "#f3f3f3" : "#5EFFB7"} p={"4"} textAlign={"left"} minW={(role === 'assistant') ? "90%" : "50%"} justifyContent={"flex-start"} gap={"0.3em"}>
-        { role === 'assistant' && <Badge colorPalette="teal" variant="solid" marginRight={"0.5em"}>{ role }</Badge> }
+    <div style={{ display: 'flex', width: '100%', justifyContent: (isAssistant()) ? "flex-start" : "flex-end" }}>
+      <Box bg={(isAssistant()) ? "#f3f3f3" : "#d5e5F5"} p={"4"} textAlign={"left"} minW={(isAssistant()) ? "90%" : "70%"} justifyContent={"flex-start"} gap={"0.3em"}>
+        <Badge colorPalette={isAssistant() ? "teal" : "yellow"} variant="solid" marginRight={"0.5em"}>{ role }</Badge>
         { model && <Badge colorPalette={"black"} variant={"solid"}>{ model }</Badge> }
           
         <Prose minWidth={'100%'}>
