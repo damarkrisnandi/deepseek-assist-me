@@ -1,6 +1,7 @@
-import { Card, Avatar } from "@chakra-ui/react";
+import { Card, Avatar, Wrap, Box, Text, Badge } from "@chakra-ui/react";
 import Markdown from "react-markdown";
-import { Prose } from "../ui/prose"
+import { Prose } from "../ui/prose";
+import rehypeHighlight from 'rehype-highlight';
 
 // const { Text } = Typography;
 
@@ -19,7 +20,15 @@ const AppChat: React.FC<MessageCardProps> = ({
 }: MessageCardProps) => {
   return (
     <div style={{ display: 'flex', width: '100%', justifyContent: (role === 'assistant') ? "flex-start" : "flex-end" }}>
-      <Card.Root variant={"subtle"} minW={(role === 'assistant') ? "80%" : "50%"} backgroundColor={(role === 'assistant') ? "" : "aquamarine"}>
+      <Box bg={(role === 'assistant') ? "#f3f3f3" : "#5EFFB7"} p={"4"} textAlign={"left"} minW={(role === 'assistant') ? "90%" : "50%"} justifyContent={"flex-start"} gap={"0.3em"}>
+        { role === 'assistant' && <Badge colorPalette="teal" variant="solid" marginRight={"0.5em"}>{ role }</Badge> }
+        { model && <Badge colorPalette={"black"} variant={"solid"}>{ model }</Badge> }
+          
+        <Prose minWidth={'100%'}>
+          <Markdown rehypePlugins={[rehypeHighlight]}>{message}</Markdown>
+        </Prose>
+      </Box>
+      {/* <Card.Root variant={"subtle"} minW={(role === 'assistant') ? "80%" : "50%"} backgroundColor={(role === 'assistant') ? "" : "aquamarine"}>
         <Card.Body gap="2">
           {avatar && (
             <Avatar.Root size="sm" shape="rounded">
@@ -27,7 +36,7 @@ const AppChat: React.FC<MessageCardProps> = ({
               <Avatar.Fallback name="Nue Camp" />
             </Avatar.Root>
           )}
-          <Card.Title mb="0">{role}</Card.Title>
+          { role === 'assistant' && <Card.Title mb="0">{role}</Card.Title> }
           { model && <Card.Description>
             { model }
           </Card.Description> }
@@ -37,7 +46,7 @@ const AppChat: React.FC<MessageCardProps> = ({
           </Prose>
 
         </Card.Body>
-      </Card.Root>
+      </Card.Root> */}
     </div>
     
   );
