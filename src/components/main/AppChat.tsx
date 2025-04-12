@@ -1,4 +1,4 @@
-import { Box, Badge, Stack, Skeleton } from "@chakra-ui/react";
+import { Box, Badge, Stack, Skeleton, Spinner, Flex, Text } from "@chakra-ui/react";
 import Markdown from "react-markdown";
 import { Prose } from "../ui/prose";
 import rehypeHighlight from 'rehype-highlight';
@@ -9,14 +9,16 @@ interface MessageCardProps {
   role: string;
   message: string;
   avatar?: string;
-  model?: string
+  model?: string;
+
+  isRunning?: boolean;
 }
 
 const AppChat: React.FC<MessageCardProps> = ({
   message,
   role,
-  avatar,
-  model
+  model,
+  isRunning
 }: MessageCardProps) => {
   const isAssistant = () => (role === 'assistant')
   return (
@@ -28,6 +30,13 @@ const AppChat: React.FC<MessageCardProps> = ({
         <Prose minWidth={'100%'}>
           <Markdown rehypePlugins={[rehypeHighlight]}>{message}</Markdown>
         </Prose>
+        { isRunning &&
+        <Flex gap={'1em'} alignItems={'center'}>
+          <Text fontSize={"2xs"}>RUNNING</Text>
+          <Spinner />
+        </Flex> 
+           
+        }
       </Box>
     </div>
     

@@ -16,7 +16,7 @@ const AppChatContainer: React.FC = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [tempMessage, setTempMessage] = useState<any>([]);
   const [tempModel, setTempModel] = useState<any>(null);
-  const [spinner, setSpinner] = useState<boolean>(false);
+  const [aiStatus, setAiStatus] = useState<{ loading: boolean, running: boolean, done: boolean }>({ loading: false, running: false, done: false })
   // const { messages, addDefaultMessages, addMessages} = useMessageStore((state: any) => state)
   const scrollToBottom = () => {
     const el = document.getElementById('messages');
@@ -28,12 +28,12 @@ const AppChatContainer: React.FC = () => {
   const handleChat = (data: any) => {
     setTempMessage([]);
     setMessages([...messages,  { role: 'user', content: data.message }])
-    setSpinner(true);
+    setAiStatus({...aiStatus, loading: true});
     setTimeout(() => {
 
       getResponse([...messages, { role: 'user', content: data.message }], tempModel)
       .then(async (response) => {
-        setSpinner(false);
+        setAiStatus({...aiStatus, loading: false, running: true});
         const reader = ndjsonStream(response.body).getReader();
         let newline: any;
         let line = []
@@ -51,6 +51,7 @@ const AppChatContainer: React.FC = () => {
           
           
           if (newline.done) {
+            setAiStatus({ loading: false, running: false, done: true });
             setMessages([...messages, { content: data.message, role: "user" }, tempMsg])
             setTempMessage([])
           }
@@ -76,8 +77,8 @@ const AppChatContainer: React.FC = () => {
             <AppChat message={message.content} role={message.role} model={message.model} key={index}/>
           ))
         }
-        { spinner && <SkeletonChat model={tempModel} role={'assistant'}/> }
-        { tempMessage.length > 0 && <AppChat message={tempMessage.join('')} model={tempModel} role={'assistant'} /> }
+        { aiStatus.loading && <SkeletonChat model={tempModel} role={'assistant'} /> }
+        { tempMessage.length > 0 && <AppChat message={tempMessage.join('')} model={tempModel} role={'assistant'} isRunning={aiStatus.running} /> }
         
         </Flex>
         <AppChatInputMsg onChat={handleChat} onChangeModel={setTempModel} />
