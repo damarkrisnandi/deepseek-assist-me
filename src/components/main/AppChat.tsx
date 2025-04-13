@@ -2,6 +2,7 @@ import { Box, Badge, Stack, Skeleton, Spinner, Flex, Text, Clipboard, IconButton
 import Markdown from "react-markdown";
 import { Prose } from "../ui/prose";
 import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm'
 
 // const { Text } = Typography;
 
@@ -31,7 +32,7 @@ const AppChat: React.FC<MessageCardProps> = ({
         
         <Box bg={(isAssistant()) ? "#f3f3f3" : "#d5e5F5"} p={"4"} textAlign={"left"} minW={(isAssistant()) ? "90%" : "70%"} justifyContent={"flex-start"} gap={"0.3em"}>
           <Prose minWidth={'100%'}>
-            <Markdown rehypePlugins={[rehypeHighlight]}>{message}</Markdown>
+            <Markdown rehypePlugins={[rehypeHighlight, remarkGfm]}>{message}</Markdown>
           </Prose>
           { isRunning &&
           <Flex gap={'1em'} alignItems={'center'}>

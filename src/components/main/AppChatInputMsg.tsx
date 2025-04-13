@@ -81,7 +81,7 @@ const SelectModel = ({ onChangeModel }: any) => {
   return (
     <Stack gap="4" width="300px" fontSize={"0.7em"}>
       <NativeSelect.Root size={"md"} onChange={handleSelect}>
-        <NativeSelect.Field placeholder={`Select model (Default: deepseek-r1:1.5b})`}>
+        <NativeSelect.Field placeholder={`Select model (Default: deepseek-r1:1.5b)`}>
           { models && models.map((model: any) => <option value={model.value} key={model.value}>{ model.label }</option>) }
           
         </NativeSelect.Field>
