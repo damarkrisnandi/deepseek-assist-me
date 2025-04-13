@@ -4,7 +4,7 @@
 import { Button, Field, Flex, Kbd, NativeSelect, Stack, Textarea } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-
+import { getTags } from "../../services/index"
 interface FormValues {
   message: string
 }
@@ -61,9 +61,7 @@ const SelectModel = ({ onChangeModel }: any) => {
   const [models, setModels] = useState<any[]>([])
   useEffect(() => {
     if (models.length === 0) {
-      fetch('http://127.0.0.1:11434/api/tags')
-      .then((resp: any) => resp.ok ? resp.json() : [])
-      .then((data: any) => {
+      getTags().then((data: any) => {
         setModels(data.models.map(({model}: { model: string }) => ({ label: model, value: model })))
       } )
     }
@@ -71,7 +69,7 @@ const SelectModel = ({ onChangeModel }: any) => {
 
   useEffect(() => {
     if (models.length > 0) {
-      handleSelect({ target: { value: models[0]?.value }})
+      handleSelect({ target: { value: 'deepseek-r1:1.5b' }})
     }
   }, [models])
 
@@ -83,7 +81,7 @@ const SelectModel = ({ onChangeModel }: any) => {
   return (
     <Stack gap="4" width="300px" fontSize={"0.7em"}>
       <NativeSelect.Root size={"md"} onChange={handleSelect}>
-        <NativeSelect.Field placeholder={`Select model (Default: ${models[0]?.value})`}>
+        <NativeSelect.Field placeholder={`Select model (Default: deepseek-r1:1.5b})`}>
           { models && models.map((model: any) => <option value={model.value} key={model.value}>{ model.label }</option>) }
           
         </NativeSelect.Field>

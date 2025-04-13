@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import AppChatInputMsg from './AppChatInputMsg';
 import AppChat, { SkeletonChat } from './AppChat';
-import { Flex } from '@chakra-ui/react';
-import { getResponse } from "../../services/index"
+import { EmptyState, Flex, Stack, VStack } from '@chakra-ui/react';
+import { chatAssistant } from "../../services/index"
 
 import ndjsonStream from 'can-ndjson-stream';
+import { LuMessageCircle } from 'react-icons/lu';
 
 // interface AppChatContainerProps {
 //   messages: { role: string; content: string }[];
@@ -21,7 +22,7 @@ const AppChatContainer: React.FC = () => {
   const scrollToBottom = () => {
     const el = document.getElementById('messages');
     if (el) {
-      el.scrollTo(0, 10000);
+      el.scrollTo(0, el.scrollHeight);
     }
   };
 
@@ -31,7 +32,7 @@ const AppChatContainer: React.FC = () => {
     setAiStatus({...aiStatus, loading: true});
     setTimeout(() => {
 
-      getResponse([...messages, { role: 'user', content: data.message }], tempModel)
+      chatAssistant([...messages, { role: 'user', content: data.message }], tempModel)
       .then(async (response) => {
         setAiStatus({...aiStatus, loading: false, running: true});
         const reader = ndjsonStream(response.body).getReader();
@@ -73,6 +74,9 @@ const AppChatContainer: React.FC = () => {
     <Flex gap="2" height={"90vh"} direction={'column'} justifyContent={'flex-end'}>
         <Flex gap="2" direction={'column'} overflowY={'auto'} id="messages">
         {
+          messages.length === 0 && <EmptyMessages />
+        }
+        {
           messages.map((message: any, index: number) => (
             <AppChat message={message.content} role={message.role} model={message.model} key={index}/>
           ))
@@ -89,5 +93,25 @@ const AppChatContainer: React.FC = () => {
    
   );
 };
+
+const EmptyMessages = () => {
+  return (
+    <Stack h={'50vh'}>
+    <EmptyState.Root size={'md'}>
+      <EmptyState.Content>
+        <EmptyState.Indicator>
+          <LuMessageCircle />
+        </EmptyState.Indicator>
+        <VStack textAlign="center">
+          <EmptyState.Title>Deepseek Assist me!</EmptyState.Title>
+          <EmptyState.Description>
+            Ask Something about programming terms and topics
+          </EmptyState.Description>
+        </VStack>
+      </EmptyState.Content>
+    </EmptyState.Root>
+    </Stack>
+  )
+}
 
 export default AppChatContainer;
